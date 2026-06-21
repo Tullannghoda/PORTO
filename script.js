@@ -227,6 +227,18 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   });
 
   // ----------------------------------------------------------
+  // 2G-2. DESIGN SHOWCASE — Header reveal
+  // ----------------------------------------------------------
+  gsap.from('.design-showcase__header > *', {
+    scrollTrigger: {
+      trigger: '.design-showcase__header',
+      start: 'top 80%',
+    },
+    y: 30, opacity: 0, duration: 0.7,
+    stagger: 0.12, ease: 'power2.out'
+  });
+
+  // ----------------------------------------------------------
   // 2H. SKILLS SECTION — Scale pop with stagger
   // ----------------------------------------------------------
   gsap.from('.skills__header > *', {
