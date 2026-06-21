@@ -807,6 +807,99 @@ if (lightbox) {
 }
 
 // ============================================================
+// 19. SCROLL SECTION INDICATOR DOTS
+// ============================================================
+const scrollDots = document.getElementById('scroll-dots');
+const dotLinks = document.querySelectorAll('.scroll-dots__dot');
+const dotSections = [
+  'hero', 'tentang', 'pengalaman', 'proyek', 'desain', 'skills', 'kontak'
+];
+
+if (scrollDots) {
+  // Show/hide dots based on scroll position (hidden in hero top area)
+  function toggleDotsVisibility() {
+    if (window.scrollY > 300) {
+      scrollDots.classList.add('is-visible');
+    } else {
+      scrollDots.classList.remove('is-visible');
+    }
+  }
+
+  // Update active dot based on which section is in view
+  function updateActiveDot() {
+    let currentSection = dotSections[0];
+
+    dotSections.forEach(sectionId => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        const offset = window.innerHeight * 0.4;
+        if (rect.top <= offset && rect.bottom > offset) {
+          currentSection = sectionId;
+        }
+      }
+    });
+
+    dotLinks.forEach(dot => {
+      const dotSection = dot.getAttribute('data-section');
+      if (dotSection === currentSection) {
+        dot.classList.add('is-active');
+      } else {
+        dot.classList.remove('is-active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    toggleDotsVisibility();
+    updateActiveDot();
+  });
+
+  // Initial check
+  toggleDotsVisibility();
+  updateActiveDot();
+
+  // Smooth scroll on dot click
+  dotLinks.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = dot.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target) {
+        if (typeof lenis !== 'undefined' && lenis) {
+          lenis.scrollTo(target, { offset: -20 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+}
+
+// ============================================================
+// 20. WHATSAPP FLOATING BUTTON — Entrance animation
+// ============================================================
+const waFloat = document.getElementById('wa-float');
+if (waFloat) {
+  // Hide initially, then animate in after a delay
+  waFloat.style.opacity = '0';
+  waFloat.style.transform = 'scale(0) translateY(20px)';
+
+  setTimeout(() => {
+    waFloat.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    waFloat.style.opacity = '1';
+    waFloat.style.transform = 'scale(1) translateY(0)';
+
+    // Reset inline styles after animation so CSS hover works
+    setTimeout(() => {
+      waFloat.style.transition = '';
+      waFloat.style.opacity = '';
+      waFloat.style.transform = '';
+    }, 600);
+  }, 2500);
+}
+
+// ============================================================
 // END DOMContentLoaded
 // ============================================================
 });
