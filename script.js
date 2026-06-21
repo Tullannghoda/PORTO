@@ -771,6 +771,42 @@ if (darkModeToggle) {
 }
 
 // ============================================================
+// LIGHTBOX for Design Showcase
+// ============================================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+
+if (lightbox) {
+  // Open lightbox on marquee item click
+  document.querySelectorAll('.marquee__item img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close lightbox
+  const closeLightbox = () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxBackdrop.addEventListener('click', closeLightbox);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+}
+
+// ============================================================
 // END DOMContentLoaded
 // ============================================================
 });
